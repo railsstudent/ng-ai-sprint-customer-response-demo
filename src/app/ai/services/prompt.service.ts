@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AI_ASSISTANT_TOKEN } from './core.constant';
+import { AI_ASSISTANT_TOKEN } from '../constants/core.constant';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class PromptService {
 
     const session = await this.#aiAssistant.create();
     if (!session) {
-      throw new Error('Failed to create AI Text Session.');
+      throw new Error('Failed to create AITextSession.');
     }
 
     const answer = await session.prompt(query);

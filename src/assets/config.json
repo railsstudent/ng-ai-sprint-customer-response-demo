@@ -1,8 +1,9 @@
 {
     "taskTextUrl": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-text@latest/wasm",
-    "textClassification": {
+    "textClassifier": {
         "name": "BERT-classifier",
-        "path": "https://storage.googleapis.com/ai-sprint-2024/mediapipe-models/text-classification/bert_classifier.tflite"
+        "path": "https://storage.googleapis.com/ai-sprint-2024/mediapipe-models/text-classification/bert_classifier.tflite",
+        "maxResults": 3
     },
     "languageDetector": {
         "name": "Language Detector",
