@@ -18,8 +18,8 @@ export class FeedbackService {
     const categories = this.modelService.classifyText(query);
     const sentiment = categories[0].sentiment;
     const responsePrompt = `
-      The customer wrote a ${sentiment} feedback in ${this.language()}. Please write response in the ${this.language()}, 100 words max.
-
+      The customer wrote a ${sentiment} feedback in ${this.language()}. 
+      Please write the response in one paragraph in ${this.language()}, 100 words max.
       Feedback: ${query} 
     `;
 
