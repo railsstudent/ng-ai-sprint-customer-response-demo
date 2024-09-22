@@ -11,6 +11,20 @@ import { FeedbackService } from './services/feedback.service';
     <textarea rows="8" id="input" name="input" [(ngModel)]="feedback"></textarea>
     <button (click)="submit()" [disabled]="buttonState().disabled">{{ buttonState().text }}</button>
     <div>
+      <p>
+        <span class="label">Language: </span>{{ language() }}
+      </p>
+      <p>
+        <span class="label">Categories: </span>
+        @for (category of categories(); track $index) {
+          <p>{{ category.sentiment }}, {{ category.score }}</p>
+        }
+      </p>
+      <p>
+        <span class="label">Prompt: </span>{{ prompt() }}
+      </p>
+    </div>
+    <div>
       <span class="label">Response:</span>
       <p>{{ response() }}</p>
     </div>
@@ -36,6 +50,10 @@ export class FeedbackInputComponent {
   feedback = signal('', { equal: () => false });
   isLoading = signal(false);
   response = signal('');
+
+  language = this.feedbackService.language;
+  categories = this.feedbackService.categories
+  prompt = this.feedbackService.prompt;
 
   buttonState = computed(() => {
     return {

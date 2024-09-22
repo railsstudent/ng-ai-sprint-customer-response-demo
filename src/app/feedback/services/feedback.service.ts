@@ -13,20 +13,26 @@ export class FeedbackService {
   language = signal('');
   prompt = signal('');
 
-  generateReply(query: string): Promise<string> {
+  async generateReply(query: string): Promise<string> {
+    this.categories.set([]);
+    this.language.set('');
+    this.prompt.set('');
+
     const language = this.modelService.detectLanguage(query);
     const categories = this.modelService.classifyText(query);
     const sentiment = categories[0].sentiment;
     const responsePrompt = `
-      The customer wrote a ${sentiment} feedback in ${this.language()}. 
-      Please write the response in one paragraph in ${this.language()}, 100 words max.
+      The customer wrote a ${sentiment} feedback in ${language}. 
+      Please write the response in one paragraph in ${language}, 100 words max.
       Feedback: ${query} 
     `;
+
+    const response = await this.promptService.prompt(responsePrompt);
 
     this.categories.set(categories);
     this.language.set(language);
     this.prompt.set(responsePrompt);
 
-    return this.promptService.prompt(responsePrompt);
+    return response;
   }
 }
