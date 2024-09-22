@@ -1,11 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DetectAIComponent } from './detect-ai.component';
 import { FeedbackService } from './feedback/services/feedback.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [DetectAIComponent],
   template: `
-    <p>Testing</p>
+    <h2>Generate Response for Customer Feedback</h2>
+    <h3>Use MediaPipe Text Classifier and Language Detection Tasks, and Chrome Built-In AI to </h3>
+    <app-detect-ai />
+  `,
+  styles: `
+    :host {
+      display: block;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
