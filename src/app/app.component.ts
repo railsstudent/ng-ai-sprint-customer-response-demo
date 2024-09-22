@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AI_ASSISTANT_TOKEN } from './core/core.constant';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: 'It works',
+  template: `
+    <p>Testing</p>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'ng-ai-sprint-customer-response-demo';
+  aiAssistant = inject(AI_ASSISTANT_TOKEN);
 }

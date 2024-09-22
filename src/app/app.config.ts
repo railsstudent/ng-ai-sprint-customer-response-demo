@@ -1,11 +1,9 @@
-import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { provideWindow } from './core/window.provide';
+import { provideAIAssistant } from './core/ai-assistant.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
-    provideHttpClient(),
-    provideWindow(),
+    provideAIAssistant(),
   ]
 };

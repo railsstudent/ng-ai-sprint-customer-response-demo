@@ -1,3 +1,3 @@
 import { InjectionToken } from '@angular/core';
 
-export const WINDOW_TOKEN = new InjectionToken('WINDOW_TOKEN');
+export const AI_ASSISTANT_TOKEN = new InjectionToken<{ create: Function, capabilities: Function }>('AI_ASSISTANT_TOKEN');
