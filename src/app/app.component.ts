@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AI_ASSISTANT_TOKEN } from './core/core.constant';
+import { PromptService } from './core/prompt.service';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,10 @@ import { AI_ASSISTANT_TOKEN } from './core/core.constant';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  aiAssistant = inject(AI_ASSISTANT_TOKEN);
+  promptService = inject(PromptService);
+
+  constructor() {
+    this.promptService.prompt(`It is ${new Date().getFullYear()}. When is the next leap year`)
+      .then((answer) => console.log(answer));
+  }
 }

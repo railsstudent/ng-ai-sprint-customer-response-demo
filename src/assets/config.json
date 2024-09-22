@@ -1,15 +1,12 @@
 {
-    "taskVisionUrl": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.15/wasm",
-    "modelLocations": [
-        { 
-            "name": "EfficientNet-Lite0 model",
-            "path": "https://storage.googleapis.com/ai-sprint-2024/mediapipe-models/image-classifier/efficientnet_lite0.tflite"
-        },
-        {
-            "name": "Vision Classifier Food V1",
-            "path": "https://storage.googleapis.com/ai-sprint-2024/mediapipe-models/image-classifier/vision-classifier-food-v1.tflite"
-        }
-    ],
-    "maxResults": 3,
-    "backendUrl": "http://localhost:3001"
+    "taskTextUrl": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-text@latest/wasm",
+    "textClassification": {
+        "name": "BERT-classifier",
+        "path": "https://storage.googleapis.com/ai-sprint-2024/mediapipe-models/text-classification/bert_classifier.tflite"
+    },
+    "languageDetector": {
+        "name": "Language Detector",
+        "path": "https://storage.googleapis.com/ai-sprint-2024/mediapipe-models/language-detection/language_detector.tflite",
+        "maxResults": 1
+    }
 }
