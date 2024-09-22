@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { PromptService } from './ai/services/prompt.service';
-import { ModelService } from './ai/services/model.service';
+import { FeedbackService } from './feedback/services/feedback.service';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +10,12 @@ import { ModelService } from './ai/services/model.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  promptService = inject(PromptService);
-  modelService = inject(ModelService);
+  feedbackService = inject(FeedbackService);
 
   constructor() {
-    const query = `It is ${new Date().getFullYear()}. When is the next leap year`;
-    this.promptService.prompt(query)
-      .then((answer) => console.log(answer));
-
-    const categories = this.modelService.classifyText(query);
-    console.log(categories);
-
-    const code = this.modelService.detectLanguage('我的母語是粵語。');
-    console.log(code);
+    const query = `
+    資料的完整可追溯性和數位稽核可以深入至儲存格層級，再加上即時變更，讓我們能掌握在報表中更新的動態並提供透明度。
+    `;
+    this.feedbackService.generateReply(query).then((topic) => console.log(topic));
   }
 }
