@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ModelService } from '~app/ai/services/model.service';
 import { PromptService } from '~app/ai/services/prompt.service';
+import { FeedbackType } from '../types/feedback-state.type';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,20 @@ export class FeedbackService {
   promptService = inject(PromptService);
   modelService = inject(ModelService);
 
-  categories = signal<{ sentiment: string; score: number }[]>([]);
-  language = signal('');
-  prompt = signal('');
+  state = signal<FeedbackType>({
+    categories: [],
+    language: '',
+    prompt: '',
+    response: '',
+  })
 
-  async generateReply(query: string): Promise<string> {
-    this.categories.set([]);
-    this.language.set('');
-    this.prompt.set('');
+  async generateReply(query: string): Promise<void> {
+    this.state.set({
+      categories: [],
+      language: '',
+      prompt: '',
+      response: '',
+    })
 
     const language = this.modelService.detectLanguage(query);
     const categories = this.modelService.classifyText(query);
@@ -27,12 +34,13 @@ export class FeedbackService {
       Feedback: ${query} 
     `;
 
-    const response = await this.promptService.prompt(responsePrompt);
+    const answer = await this.promptService.prompt(responsePrompt);
 
-    this.categories.set(categories);
-    this.language.set(language);
-    this.prompt.set(responsePrompt);
-
-    return response;
+    this.state.set({
+      categories,
+      language,
+      prompt: responsePrompt,
+      response: answer,
+    })
   }
 }

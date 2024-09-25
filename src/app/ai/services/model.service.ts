@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { LanguageDetector, TextClassifier } from '@mediapipe/tasks-text';
 import Iso639Type from 'iso-639-language';
 import config from '~assets/config.json';
+import { Sentiment } from '../types/sentiment.type';
 import { createLanguageDetector, createTextClassifier } from '../utils/load-models';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class ModelService {
     this.#languageDetector.set(languageDetector);
   }
 
-  classifyText(query: string): { sentiment: string; score: number }[] {
+  classifyText(query: string): Sentiment[] {
     const classifer = this.#textClassifer();
     if (classifer) {
       const result = classifer.classify(query);

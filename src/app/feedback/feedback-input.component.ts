@@ -10,23 +10,24 @@ import { FeedbackService } from './services/feedback.service';
     <label class="label" for="input">Input customer feedback: </label>
     <textarea rows="8" id="input" name="input" [(ngModel)]="feedback"></textarea>
     <button (click)="submit()" [disabled]="buttonState().disabled">{{ buttonState().text }}</button>
+    @let state = feedbackState();
     <div>
       <p>
-        <span class="label">Language: </span>{{ language() }}
+        <span class="label">Language: </span>{{ state.language }}
       </p>
       <p>
         <span class="label">Categories: </span>
-        @for (category of categories(); track $index) {
+        @for (category of state.categories; track $index) {
           <p>{{ category.sentiment }}, {{ category.score }}</p>
         }
       </p>
       <p>
-        <span class="label">Prompt: </span>{{ prompt() }}
+        <span class="label">Prompt: </span>{{ state.prompt }}
       </p>
     </div>
     <div>
       <span class="label">Response:</span>
-      <p>{{ response() }}</p>
+      <p>{{ state.response }}</p>
     </div>
   `,
   styles: `
@@ -49,11 +50,8 @@ export class FeedbackInputComponent {
 
   feedback = signal('', { equal: () => false });
   isLoading = signal(false);
-  response = signal('');
 
-  language = this.feedbackService.language;
-  categories = this.feedbackService.categories
-  prompt = this.feedbackService.prompt;
+  feedbackState = this.feedbackService.state;
 
   buttonState = computed(() => {
     return {
@@ -64,9 +62,7 @@ export class FeedbackInputComponent {
   
   async submit() {
     this.isLoading.set(true);
-    this.response.set('');
-    const result = await this.feedbackService.generateReply(this.feedback());
-    this.response.set(result);
+    await this.feedbackService.generateReply(this.feedback());
     this.isLoading.set  (false);
   }
 }
