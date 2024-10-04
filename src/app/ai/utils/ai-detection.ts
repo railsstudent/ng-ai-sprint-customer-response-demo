@@ -22,7 +22,7 @@ export async function checkChromeBuiltInAI(): Promise<''> {
    const assistant = inject(AI_ASSISTANT_TOKEN);
    const status = (await assistant?.capabilities())?.available;
    if (status === CAPABILITIES.AFTER_DOWNLOAD) {
-      throw new Error('Built-in AI is not ready, please go to chrome://components and start downloading Optimization Guide On Device Model');
+      throw new Error('Built-in AI is not ready, please go to chrome://components and start downloading the Optimization Guide On Device Model');
    } else if (status === CAPABILITIES.NO) {
       throw new Error('The model of the Prompt API is not implemented. Please check your configuration in chrome://flags/#optimization-guide-on-device-model');
    }
@@ -35,10 +35,7 @@ export function isPromptAPISupported(): Observable<string> {
       catchError(
          (e) => {
             console.error(e);
-            if (e instanceof Error) {
-               return of(e.message);
-            }
-            return of('If you are on Chrome, join the Early Preview Program to enable it. The URL is https://developer.chrome.com/docs/ai/built-in#get_an_early_preview.');
+            return of(e instanceof Error ? e.message : 'unknown');
          }
       )
    );

@@ -35,12 +35,8 @@ import { FeedbackService } from './services/feedback.service';
       width: 100%;
     }
 
-    .label, button {
+    button {
       margin-bottom: 0.5rem;
-    }
-
-    .label {
-      color: #4a4a4a; 
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
