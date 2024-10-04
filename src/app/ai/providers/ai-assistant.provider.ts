@@ -9,11 +9,8 @@ export function provideAIAssistant(): EnvironmentProviders {
             useFactory: () => {
                 const platformId = inject(PLATFORM_ID);
                 const objWindow = isPlatformBrowser(platformId) ? window : undefined;
-                if (objWindow) {
-                    const winWithAI = objWindow as any;
-                    if (winWithAI?.ai?.assistant) {
-                        return winWithAI.ai.assistant;
-                    }
+                if (objWindow && 'ai' in objWindow && (objWindow.ai as any).assistant) {
+                    return (objWindow.ai as any).assistant;
                 }
 
                 return undefined;
