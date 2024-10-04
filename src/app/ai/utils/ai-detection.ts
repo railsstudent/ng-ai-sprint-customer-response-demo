@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { catchError, from, Observable, of } from 'rxjs';
 import { AI_ASSISTANT_TOKEN } from '../constants/core.constant';
 import { CAPABILITIES } from '../enums/capabilities.enum';
 import { getChromVersion, isChromeBrowser } from './user-agent-data';
 
 const CHROME_VERSION = 128
 
-export async function checkChromeBuiltInAI(): Promise<boolean> {
+export async function checkChromeBuiltInAI(): Promise<''> {
    if (!isChromeBrowser()) {
       throw new Error('Your browser is not supported. Please use Google Chrome Dev or Canary.');
    }
@@ -27,9 +27,19 @@ export async function checkChromeBuiltInAI(): Promise<boolean> {
       throw new Error('The model of the Prompt API is not implemented. Please check your configuration in chrome://flags/#optimization-guide-on-device-model');
    }
 
-   return true;
+   return '';
 }
 
-export function isPromptAPISupported(): Observable<boolean> {
-   return from(checkChromeBuiltInAI());
+export function isPromptAPISupported(): Observable<string> {
+   return from(checkChromeBuiltInAI()).pipe(
+      catchError(
+         (e) => {
+            console.error(e);
+            if (e instanceof Error) {
+               return of(e.message);
+            }
+            return of('If you are on Chrome, join the Early Preview Program to enable it. The URL is https://developer.chrome.com/docs/ai/built-in#get_an_early_preview.');
+         }
+      )
+   );
 }
