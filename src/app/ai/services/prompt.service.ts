@@ -8,11 +8,11 @@ export class PromptService {
   #aiAssistant = inject(AI_ASSISTANT_TOKEN);
 
   async prompt(query: string): Promise<string> {
-    const controller = new AbortController();
     if (!this.#aiAssistant) {
       throw new Error(`Your browser doesn't support the Prompt API. If you are on Chrome, join the Early Preview Program to enable it.`);
     }
 
+    const controller = new AbortController();
     const session = await this.#aiAssistant.create({
       systemPrompt: 'You are a customer service expert who replies to customer feedback in the same language.',
       signal: controller.signal,
