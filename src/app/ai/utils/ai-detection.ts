@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { catchError, from, Observable, of } from 'rxjs';
-import { AI_ASSISTANT_TOKEN } from '../constants/core.constant';
+import { AI_PROMPT_API_TOKEN } from '../constants/core.constant';
 import { CAPABILITIES } from '../enums/capabilities.enum';
 import { getChromVersion, isChromeBrowser } from './user-agent-data';
 
@@ -19,7 +19,7 @@ export async function checkChromeBuiltInAI(): Promise<string> {
       throw new Error('Prompt API is not available, check your configuration in chrome://flags/#prompt-api-for-gemini-nano');
    }
 
-   const assistant = inject(AI_ASSISTANT_TOKEN);
+   const assistant = inject(AI_PROMPT_API_TOKEN);
    const status = (await assistant?.capabilities())?.available;
    if (!status) { 
       throw new Error('Build-in Prompt API not found in window. Please check the Prompt API\'s explainer in github.com/explainers-by-googlers/prompt-api');

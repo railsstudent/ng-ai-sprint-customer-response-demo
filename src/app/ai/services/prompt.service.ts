@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { AI_ASSISTANT_TOKEN } from '../constants/core.constant';
+import { AI_PROMPT_API_TOKEN } from '../constants/core.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromptService {
-  #aiAssistant = inject(AI_ASSISTANT_TOKEN);
+  #aiAssistant = inject(AI_PROMPT_API_TOKEN);
 
   async prompt(query: string): Promise<string> {
     if (!this.#aiAssistant) {
