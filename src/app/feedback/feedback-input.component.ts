@@ -29,6 +29,11 @@ import { FeedbackService } from './services/feedback.service';
       <span class="label">Response:</span>
       <p>{{ state.response }}</p>
     </div>
+    <div>
+      @if (error()) {
+        <p>Error: {{ error() }}</p>
+      }
+    </div>
   `,
   styles: `
     textarea {
@@ -48,6 +53,7 @@ export class FeedbackInputComponent {
   isLoading = signal(false);
 
   feedbackState = this.feedbackService.state;
+  error = signal('');
 
   buttonState = computed(() => {
     return {
@@ -58,7 +64,17 @@ export class FeedbackInputComponent {
   
   async submit() {
     this.isLoading.set(true);
-    await this.feedbackService.generateReply(this.feedback());
-    this.isLoading.set  (false);
+    this.error.set('');
+    try {
+      await this.feedbackService.generateReply(this.feedback());
+    } catch (e) {
+      if (e instanceof Error) {
+        this.error.set((e as Error).message);
+      } else {
+        this.error.set('Error in prompt service');
+      }
+    } finally {
+      this.isLoading.set  (false);
+    }
   }
 }

@@ -6,7 +6,7 @@ import { getChromVersion, isChromeBrowser } from './user-agent-data';
 
 const CHROME_VERSION = 128
 
-export async function checkChromeBuiltInAI(): Promise<''> {
+export async function checkChromeBuiltInAI(): Promise<string> {
    if (!isChromeBrowser()) {
       throw new Error('Your browser is not supported. Please use Google Chrome Dev or Canary.');
    }
@@ -21,7 +21,9 @@ export async function checkChromeBuiltInAI(): Promise<''> {
 
    const assistant = inject(AI_ASSISTANT_TOKEN);
    const status = (await assistant?.capabilities())?.available;
-   if (status === CAPABILITIES.AFTER_DOWNLOAD) {
+   if (!status) { 
+      throw new Error('Build-in Prompt API not found in window. Please check the Prompt API\'s explainer in github.com/explainers-by-googlers/prompt-api');
+   } else if (status === CAPABILITIES.AFTER_DOWNLOAD) {
       throw new Error('Built-in AI is not ready, please go to chrome://components and start downloading the Optimization Guide On Device Model');
    } else if (status === CAPABILITIES.NO) {
       throw new Error('The model of the Prompt API is not implemented. Please check your configuration in chrome://flags/#optimization-guide-on-device-model');
